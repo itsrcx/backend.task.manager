@@ -1,1 +1,1 @@
-** run command <code>docker compose up -d</code>
+1. run command <code>docker compose up -d</code>
