@@ -1,0 +1,46 @@
+services:
+  db:
+    container_name: pg_database
+    image: postgres:16.3
+    environment:
+      PGDATA: /var/lib/postgresql/data/db_files
+      POSTGRES_DB: task_manager_dev_db
+      POSTGRES_USER: joyboy
+      POSTGRES_PASSWORD: password
+      POSTGRES_INITDB_ARGS: "--auth-local=trust"
+      POSTGRES_INITDB_WALDIR: "/var/lib/postgresql/data/pg_wal"
+      POSTGRES_ROOT_PASSWORD: pass4wd
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - main_network
+
+  backend:
+    container_name: django_backend
+    build: .
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    environment:
+      # DJANGO_SECRET: 
+      DJANGO_SETTINGS_MODULE: project.settings
+      POSTGRES_DB: task_manager_dev_db
+      POSTGRES_USER: joyboy
+      POSTGRES_PASSWORD: password
+      POSTGRES_ROOT_PASSWORD: pass4wd
+      POSTGRES_DB_PORT: 5432
+      POSTGRES_HOST: db
+    depends_on:
+      - db
+    networks:
+      - main_network
+
+networks:
+  main_network:
+    name: main_network
+
+volumes:
+  postgres_data:
