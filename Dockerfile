@@ -1,5 +1,5 @@
 # Use the official Python image from the Docker Hub
-FROM python:3.12.4-bullseye
+FROM python:3.10-bullseye
 
 # Set environment variables to prevent Python from writing pyc files and to buffer stdout and stderr
 ENV PYTHONDONTWRITEBYTECODE 1
